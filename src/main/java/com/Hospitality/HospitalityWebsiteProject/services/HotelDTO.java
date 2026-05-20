@@ -1,27 +1,10 @@
-package com.Hospitality.HospitalityWebsiteProject.entity;
+package com.Hospitality.HospitalityWebsiteProject.services;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
-@Entity
-public class HotelEntity {
-
-    private @Id
-    @GeneratedValue Long id;
+public class HotelDTO {
     private String name;
     private String city;
     private String state;
     private Double pricePerDay;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -55,12 +38,4 @@ public class HotelEntity {
         this.pricePerDay = pricePerDay;
     }
 
-    @Override
-    public String toString() {
-        return "Hotel " + name
-                + "Id:" + id
-                + "Cidade e Estado"
-                + city + "-" + state
-                + String.format("%.2f",pricePerDay);
-    }
 }
