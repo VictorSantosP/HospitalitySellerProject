@@ -1,9 +1,14 @@
 package com.Hospitality.HospitalityWebsiteProject.controller;
 
+import com.Hospitality.HospitalityWebsiteProject.DTO.HotelRequestDTO;
+import com.Hospitality.HospitalityWebsiteProject.DTO.HotelResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.entity.HotelEntity;
-import com.Hospitality.HospitalityWebsiteProject.services.HotelDTO;
+import com.Hospitality.HospitalityWebsiteProject.services.HotelServiceImpl;
 import com.Hospitality.HospitalityWebsiteProject.services.HotelServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,19 +17,24 @@ import java.util.List;
 @RequestMapping("/hotels")
 public class HotelsController {
 
+    private final HotelServices hotelServices;
+
     @Autowired
-    private HotelServices services;
+    public HotelsController(HotelServices hotelServices){
+        this.hotelServices = hotelServices;
+    }
 
     @PostMapping
-    public HotelEntity createHotel(@RequestBody HotelDTO dto){
-        return services.createHotel(dto);
+    public ResponseEntity<HotelResponseDTO> createHotel(@RequestBody HotelRequestDTO hotelRequestDTO){
+        HotelResponseDTO response= hotelServices.createHotel(hotelRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public List<HotelEntity> getHotels(){
-        return services.getHotels();
+    public ResponseEntity<List<HotelResponseDTO>> getAllHotels(){
+        List<HotelResponseDTO> hotels = hotelServices.getAllHotels();
+        return ResponseEntity.ok(hotels);
     }
-
 
 
 

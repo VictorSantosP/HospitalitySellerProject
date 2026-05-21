@@ -1,6 +1,6 @@
-package com.Hospitality.HospitalityWebsiteProject.services;
+package com.Hospitality.HospitalityWebsiteProject.DTO;
 
-public class HotelDTO {
+public class HotelRequestDTO {
     private String name;
     private String city;
     private String state;
@@ -37,5 +37,4 @@ public class HotelDTO {
     public void setPricePerDay(Double pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
-
 }
