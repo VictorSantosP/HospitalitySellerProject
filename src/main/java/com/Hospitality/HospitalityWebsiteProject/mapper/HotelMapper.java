@@ -11,18 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Component
 public class HotelMapper {
 
     List<HotelEntity> list = new ArrayList<>();
 
-    private Long currentId = 1L;
 
     public HotelEntity toEntity(HotelRequestDTO dto){
 
         HotelEntity hotel = new HotelEntity();
 
-        hotel.setId(currentId++);
         hotel.setName(dto.getName());
         hotel.setCity(dto.getCity());
         hotel.setState(dto.getState());
