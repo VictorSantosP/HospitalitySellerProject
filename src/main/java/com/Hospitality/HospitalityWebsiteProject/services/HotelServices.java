@@ -17,4 +17,6 @@ public interface HotelServices {
     HotelResponseDTO createHotel(HotelRequestDTO hotelRequestDTO);
     List<HotelResponseDTO> getAllHotels();
     HotelResponseDTO getHotelById(Long id);
+    void deleteById(Long id);
+    HotelResponseDTO updateById(Long id, HotelRequestDTO hotelRequestDTO);
 }

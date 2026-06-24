@@ -42,6 +42,18 @@ public class HotelsController {
         return ResponseEntity.ok().body(response);
     }
 
+    @DeleteMapping("/del/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id){
+        hotelServices.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<HotelResponseDTO> UpdateById(@PathVariable Long id, @RequestBody HotelRequestDTO hotelRequestDTO){
+        HotelResponseDTO response = hotelServices.updateById(id, hotelRequestDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 
 
 

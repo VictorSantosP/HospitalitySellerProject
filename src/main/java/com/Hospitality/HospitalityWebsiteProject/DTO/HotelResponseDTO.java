@@ -1,25 +1,19 @@
 package com.Hospitality.HospitalityWebsiteProject.DTO;
 
-import com.Hospitality.HospitalityWebsiteProject.entity.HotelEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class HotelResponseDTO {
 
     Long id = null;
     String name = null;
     String city = null;
     String state = null;
-    Double setPricepPerDay = null;
+    Double pricePerDay = null;
 
-    public HotelResponseDTO(Long id, String name, String city, String state, Double setPricepPerDay) {
+    public HotelResponseDTO(Long id, String name, String city, String state, Double pricePerDay) {
         this.id = id;
         this.name = name;
         this.city = city;
         this.state = state;
-        this.setPricepPerDay = setPricepPerDay;
+        this.pricePerDay = pricePerDay;
     }
 
     public Long getId() {
@@ -38,7 +32,7 @@ public class HotelResponseDTO {
         return state;
     }
 
-    public Double getSetPricepPerDay() {
-        return setPricepPerDay;
+    public Double getPricePerDay() {
+        return pricePerDay;
     }
 }
