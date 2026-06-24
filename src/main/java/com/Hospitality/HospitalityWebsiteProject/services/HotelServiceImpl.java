@@ -6,11 +6,13 @@ import com.Hospitality.HospitalityWebsiteProject.DTO.HotelResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.entity.HotelEntity;
 import com.Hospitality.HospitalityWebsiteProject.mapper.HotelMapper;
 import com.Hospitality.HospitalityWebsiteProject.repository.HotelRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HotelServiceImpl implements HotelServices{
@@ -31,6 +33,16 @@ public class HotelServiceImpl implements HotelServices{
 
     @Override
     public List<HotelResponseDTO> getAllHotels(){
+
         return hotelMapper.toResponseList(hotelRepository.findAll());
     }
+
+    @Override
+    public HotelResponseDTO getHotelById(Long id){
+        return hotelMapper.toResponseDTO(
+                hotelRepository.findById(id).orElseThrow(
+                        () -> new EntityNotFoundException(
+                                "Hotel nao encontrado com o id: " + id)));
+    }
+
 }

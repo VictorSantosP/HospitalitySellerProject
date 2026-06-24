@@ -30,10 +30,16 @@ public class HotelsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<HotelResponseDTO>> getAllHotels(){
         List<HotelResponseDTO> hotels = hotelServices.getAllHotels();
         return ResponseEntity.ok(hotels);
+    }
+
+    @GetMapping("/list/{id}")
+    public ResponseEntity<HotelResponseDTO> findById(@PathVariable Long id){
+        HotelResponseDTO response = hotelServices.getHotelById(id);
+        return ResponseEntity.ok().body(response);
     }
 
 
