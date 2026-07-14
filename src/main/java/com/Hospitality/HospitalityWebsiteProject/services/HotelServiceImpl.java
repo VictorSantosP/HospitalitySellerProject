@@ -4,10 +4,12 @@ package com.Hospitality.HospitalityWebsiteProject.services;
 import com.Hospitality.HospitalityWebsiteProject.DTO.HotelRequestDTO;
 import com.Hospitality.HospitalityWebsiteProject.DTO.HotelResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.entity.HotelEntity;
+import com.Hospitality.HospitalityWebsiteProject.exception.HotelNotFoundException;
 import com.Hospitality.HospitalityWebsiteProject.mapper.HotelMapper;
 import com.Hospitality.HospitalityWebsiteProject.repository.HotelRepository;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -26,8 +28,10 @@ public class HotelServiceImpl implements HotelServices{
 
     @Override
     public HotelResponseDTO createHotel(HotelRequestDTO hotelRequestDTO){
-        HotelEntity hotel = hotelMapper.toEntity(hotelRequestDTO);
-        HotelEntity saved = hotelRepository.saveAndFlush(hotel);
+        @Valid HotelEntity hotel = hotelMapper.toEntity(hotelRequestDTO);
+        @Valid HotelEntity saved = hotelRepository.saveAndFlush(hotel);
+
+
 
 
         return hotelMapper.toResponseDTO(saved);
@@ -41,10 +45,10 @@ public class HotelServiceImpl implements HotelServices{
 
     @Override
     public HotelResponseDTO getHotelById(Long id){
-        return hotelMapper.toResponseDTO(
-                hotelRepository.findById(id).orElseThrow(
-                        () -> new EntityNotFoundException(
-                                "Hotel nao encontrado com o id: " + id)));
+        HotelEntity hotel = hotelRepository.findById(id).
+                orElseThrow(() -> new HotelNotFoundException("Hotel não não encontrado com o Id: " + id));
+
+        return hotelMapper.toResponseDTO(hotel);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.Hospitality.HospitalityWebsiteProject.DTO.HotelResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.entity.HotelEntity;
 import com.Hospitality.HospitalityWebsiteProject.services.HotelServiceImpl;
 import com.Hospitality.HospitalityWebsiteProject.services.HotelServices;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -25,7 +26,7 @@ public class HotelsController {
     }
 
     @PostMapping
-    public ResponseEntity<HotelResponseDTO> createHotel(@RequestBody HotelRequestDTO hotelRequestDTO){
+    public ResponseEntity<HotelResponseDTO> createHotel(@Valid @RequestBody HotelRequestDTO hotelRequestDTO){
         HotelResponseDTO response= hotelServices.createHotel(hotelRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -49,7 +50,7 @@ public class HotelsController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<HotelResponseDTO> UpdateById(@PathVariable Long id, @RequestBody HotelRequestDTO hotelRequestDTO){
+    public ResponseEntity<HotelResponseDTO> UpdateById(@PathVariable Long id, @Valid @RequestBody HotelRequestDTO hotelRequestDTO){
         HotelResponseDTO response = hotelServices.updateById(id, hotelRequestDTO);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
