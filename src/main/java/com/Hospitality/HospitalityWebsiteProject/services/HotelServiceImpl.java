@@ -9,16 +9,15 @@ import com.Hospitality.HospitalityWebsiteProject.exception.HotelAlreadyExistsExc
 import com.Hospitality.HospitalityWebsiteProject.exception.HotelNotFoundException;
 import com.Hospitality.HospitalityWebsiteProject.mapper.HotelMapper;
 import com.Hospitality.HospitalityWebsiteProject.repository.HotelRepository;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class HotelServiceImpl implements HotelServices {
@@ -31,7 +30,8 @@ public class HotelServiceImpl implements HotelServices {
     @Override
     public HotelResponseDTO createHotel(HotelRequestDTO hotelRequestDTO) {
         if (hotelRepository.existsByName(hotelRequestDTO.getName())) {
-            throw new HotelAlreadyExistsException("Esse hotel já existe na base de dados.");
+            throw new HotelAlreadyExistsException(
+                    "Esse hotel já existe na base de dados.");
         }
 
         try {
@@ -40,20 +40,23 @@ public class HotelServiceImpl implements HotelServices {
 
             return hotelMapper.toResponseDTO(saved);
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityException("Erro de integridade de dados.");
+            throw new DataIntegrityException(
+                    "Erro de integridade de dados.");
         }
     }
 
     @Override
-    public List<HotelResponseDTO> getAllHotels() {
+    public Page<HotelResponseDTO> getAllHotels(Pageable pageable) {
+        Page<HotelEntity> hotels = hotelRepository.findAll(pageable);
 
-        return hotelMapper.toResponseList(hotelRepository.findAll());
+        return hotels.map(hotelMapper::toResponseDTO);
     }
 
     @Override
     public HotelResponseDTO getHotelById(Long id) {
         HotelEntity hotel = hotelRepository.findById(id).
-                orElseThrow(() -> new HotelNotFoundException("Hotel não encontrado com o Id: " + id));
+                orElseThrow(() -> new HotelNotFoundException(
+                        "Hotel não encontrado com o Id: " + id));
 
         return hotelMapper.toResponseDTO(hotel);
     }
@@ -66,10 +69,12 @@ public class HotelServiceImpl implements HotelServices {
                     hotelRepository.deleteById(id);
                 }
             } catch (DataIntegrityViolationException e) {
-                throw new DataIntegrityViolationException("Erro de integridade de dados.");
+                throw new DataIntegrityViolationException(
+                        "Erro de integridade de dados.");
             }
         } else {
-            throw new HotelNotFoundException("Hotel não encontrado com o Id: " + id);
+            throw new HotelNotFoundException(
+                    "Hotel não encontrado com o Id: " + id);
         }
     }
 
@@ -77,7 +82,8 @@ public class HotelServiceImpl implements HotelServices {
     public HotelResponseDTO updateById(Long id, HotelRequestDTO hotelRequestDTO) {
             try {
                 HotelEntity entity = hotelRepository.findById(id).orElseThrow(() ->
-                        new HotelNotFoundException("Hotel não encontrado com o Id: " + id));
+                        new HotelNotFoundException(
+                                "Hotel não encontrado com o Id: " + id));
                 if (!entity.getName().equals(hotelRequestDTO.getName())) {
                      entity.setName(hotelRequestDTO.getName());
                 }
@@ -94,7 +100,75 @@ public class HotelServiceImpl implements HotelServices {
 
                 return hotelMapper.toResponseDTO(saved);
             } catch (DataIntegrityViolationException e) {
-                throw new DataIntegrityException("Erro de integridade de dados.");
+                throw new DataIntegrityException(
+                        "Erro de integridade de dados.");
             }
+    }
+
+    @Override
+    public List<HotelResponseDTO> findByCity(String city){
+        if(!hotelRepository.existsByCityIgnoreCase(city)){
+            throw new HotelNotFoundException(
+                    "Não há hotel cadastrado na cidade: " + city);
+        }
+        return hotelMapper.toResponseList(hotelRepository.findAllByCityIgnoreCase(city));
+    }
+
+    @Override
+    public List<HotelResponseDTO> findByState(String state){
+        if(!hotelRepository.existsByStateIgnoreCase(state)){
+            throw new HotelNotFoundException(
+                    "Não há hotel cadastrado no estado: " + state);
+        }
+        return hotelMapper.toResponseList(hotelRepository.findAllByStateIgnoreCase(state));
+    }
+
+    @Override
+    public List<HotelResponseDTO> findByName(String name){
+        if(!hotelRepository.existsByNameIgnoreCase(name)){
+            throw new HotelNotFoundException(
+                    "Não há hotel cadastrado com o nome: " + name);
+        }
+        return hotelMapper.toResponseList(hotelRepository.findAllByNameIgnoreCase(name));
+    }
+
+    @Override
+    public List<HotelResponseDTO> findByNameContaining(String name){
+        if(!hotelRepository.existsByNameContainingIgnoreCase(name)){
+            throw new HotelNotFoundException(
+                    "Não há hotel cadastrado com a(s) palavra(s):  " + name
+            );
+        }
+        return  hotelMapper.toResponseList(hotelRepository.findAllByNameContainingIgnoreCase(name));
+    }
+
+    @Override
+    public List<HotelResponseDTO> findByPricePerDayLessThan(Double price){
+        if(!hotelRepository.existsByPricePerDayLessThan(price)){
+            throw new HotelNotFoundException(
+                    "Não há hotel cadastrado com o valor abaixo de: " + price
+            );
+        }
+        return  hotelMapper.toResponseList(hotelRepository.findAllByPricePerDayLessThan(price));
+    }
+
+    @Override
+    public List<HotelResponseDTO> findByPricePerDayGreaterThan(Double price){
+        if(!hotelRepository.existsByPricePerDayGreaterThan(price)){
+            throw new HotelNotFoundException(
+                    "Não há hotel cadastrado com o valor acima de: " + price
+            );
+        }
+        return  hotelMapper.toResponseList(hotelRepository.findAllByPricePerDayGreaterThan(price));
+    }
+
+    @Override
+    public List<HotelResponseDTO> findByPricePerDayBetween(Double min, Double max){
+        if(!hotelRepository.existsByPricePerDayBetween(min, max)){
+            throw new HotelNotFoundException(
+                    "Não há hotel cadastrado com o valor entre: " + min + " e " + max
+            );
+        }
+        return  hotelMapper.toResponseList(hotelRepository.findAllByPricePerDayBetween(min, max));
     }
 }
