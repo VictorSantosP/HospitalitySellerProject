@@ -4,6 +4,8 @@ package com.Hospitality.HospitalityWebsiteProject.services;
 import com.Hospitality.HospitalityWebsiteProject.DTO.HotelRequestDTO;
 import com.Hospitality.HospitalityWebsiteProject.DTO.HotelResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.entity.HotelEntity;
+import com.Hospitality.HospitalityWebsiteProject.exception.DataIntegrityException;
+import com.Hospitality.HospitalityWebsiteProject.exception.HotelAlreadyExistsException;
 import com.Hospitality.HospitalityWebsiteProject.exception.HotelNotFoundException;
 import com.Hospitality.HospitalityWebsiteProject.mapper.HotelMapper;
 import com.Hospitality.HospitalityWebsiteProject.repository.HotelRepository;
@@ -19,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class HotelServiceImpl implements HotelServices{
+public class HotelServiceImpl implements HotelServices {
 
     @Autowired
     private HotelMapper hotelMapper;
@@ -27,63 +29,72 @@ public class HotelServiceImpl implements HotelServices{
     private HotelRepository hotelRepository;
 
     @Override
-    public HotelResponseDTO createHotel(HotelRequestDTO hotelRequestDTO){
-        @Valid HotelEntity hotel = hotelMapper.toEntity(hotelRequestDTO);
-        @Valid HotelEntity saved = hotelRepository.saveAndFlush(hotel);
+    public HotelResponseDTO createHotel(HotelRequestDTO hotelRequestDTO) {
+        if (hotelRepository.existsByName(hotelRequestDTO.getName())) {
+            throw new HotelAlreadyExistsException("Esse hotel já existe na base de dados.");
+        }
 
+        try {
+            HotelEntity hotel = hotelMapper.toEntity(hotelRequestDTO);
+            HotelEntity saved = hotelRepository.saveAndFlush(hotel);
 
-
-
-        return hotelMapper.toResponseDTO(saved);
+            return hotelMapper.toResponseDTO(saved);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Erro de integridade de dados.");
+        }
     }
 
     @Override
-    public List<HotelResponseDTO> getAllHotels(){
+    public List<HotelResponseDTO> getAllHotels() {
 
         return hotelMapper.toResponseList(hotelRepository.findAll());
     }
 
     @Override
-    public HotelResponseDTO getHotelById(Long id){
+    public HotelResponseDTO getHotelById(Long id) {
         HotelEntity hotel = hotelRepository.findById(id).
-                orElseThrow(() -> new HotelNotFoundException("Hotel não não encontrado com o Id: " + id));
+                orElseThrow(() -> new HotelNotFoundException("Hotel não encontrado com o Id: " + id));
 
         return hotelMapper.toResponseDTO(hotel);
     }
 
     @Override
-    public void deleteById(Long id){
-        try{
-            if(hotelRepository.existsById(id)){
-                hotelRepository.deleteById(id);
+    public void deleteById(Long id) {
+        if (hotelRepository.existsById(id)) {
+            try {
+                if (hotelRepository.existsById(id)) {
+                    hotelRepository.deleteById(id);
+                }
+            } catch (DataIntegrityViolationException e) {
+                throw new DataIntegrityViolationException("Erro de integridade de dados.");
             }
-        }catch (DataIntegrityViolationException e){
-            throw new DataIntegrityViolationException(e.getMessage());
+        } else {
+            throw new HotelNotFoundException("Hotel não encontrado com o Id: " + id);
         }
     }
 
     @Override
-    public HotelResponseDTO updateById(Long id, HotelRequestDTO hotelRequestDTO){
-        try{
-            HotelEntity entity = hotelRepository.getReferenceById(id);
-            if(!entity.getName().equals(hotelRequestDTO.getName())){
-                entity.setName(hotelRequestDTO.getName());
-            }
-            if(!entity.getCity().equals(hotelRequestDTO.getCity())){
-                entity.setCity(hotelRequestDTO.getCity());
-            }
-            if(!entity.getState().equals(hotelRequestDTO.getState())){
-                entity.setState(hotelRequestDTO.getState());
-            }
-            if(!entity.getPricePerDay().equals(hotelRequestDTO.getPricePerDay())){
-                entity.setPricePerDay(hotelRequestDTO.getPricePerDay());
-            }
-            HotelEntity saved = hotelRepository.saveAndFlush(entity);
+    public HotelResponseDTO updateById(Long id, HotelRequestDTO hotelRequestDTO) {
+            try {
+                HotelEntity entity = hotelRepository.findById(id).orElseThrow(() ->
+                        new HotelNotFoundException("Hotel não encontrado com o Id: " + id));
+                if (!entity.getName().equals(hotelRequestDTO.getName())) {
+                     entity.setName(hotelRequestDTO.getName());
+                }
+                if (!entity.getCity().equals(hotelRequestDTO.getCity())) {
+                    entity.setCity(hotelRequestDTO.getCity());
+                }
+                if (!entity.getState().equals(hotelRequestDTO.getState())) {
+                    entity.setState(hotelRequestDTO.getState());
+                }
+                if (!entity.getPricePerDay().equals(hotelRequestDTO.getPricePerDay())) {
+                    entity.setPricePerDay(hotelRequestDTO.getPricePerDay());
+                }
+                @Valid HotelEntity saved = hotelRepository.saveAndFlush(entity);
 
-            return hotelMapper.toResponseDTO(saved);
-        }catch(EntityNotFoundException e){
-            throw new EntityNotFoundException(e.getMessage());
-        }
+                return hotelMapper.toResponseDTO(saved);
+            } catch (DataIntegrityViolationException e) {
+                throw new DataIntegrityException("Erro de integridade de dados.");
+            }
     }
-
 }

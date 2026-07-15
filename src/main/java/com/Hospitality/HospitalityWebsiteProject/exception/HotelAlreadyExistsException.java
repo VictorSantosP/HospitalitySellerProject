@@ -1,7 +1,7 @@
 package com.Hospitality.HospitalityWebsiteProject.exception;
 
 public class HotelAlreadyExistsException extends RuntimeException {
-    public HotelAlreadyExistsException() {
-        super("Hotel já existe.");
+    public HotelAlreadyExistsException(String message) {
+        super(message);
     }
 }
