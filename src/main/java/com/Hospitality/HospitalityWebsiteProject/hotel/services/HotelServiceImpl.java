@@ -1,21 +1,20 @@
-package com.Hospitality.HospitalityWebsiteProject.services;
+package com.Hospitality.HospitalityWebsiteProject.hotel.services;
 
 
-import com.Hospitality.HospitalityWebsiteProject.DTO.HotelRequestDTO;
-import com.Hospitality.HospitalityWebsiteProject.DTO.HotelResponseDTO;
-import com.Hospitality.HospitalityWebsiteProject.entity.HotelEntity;
+import com.Hospitality.HospitalityWebsiteProject.hotel.dto.HotelRequestDTO;
+import com.Hospitality.HospitalityWebsiteProject.hotel.dto.HotelResponseDTO;
+import com.Hospitality.HospitalityWebsiteProject.hotel.entity.HotelEntity;
 import com.Hospitality.HospitalityWebsiteProject.exception.DataIntegrityException;
 import com.Hospitality.HospitalityWebsiteProject.exception.HotelAlreadyExistsException;
 import com.Hospitality.HospitalityWebsiteProject.exception.HotelNotFoundException;
-import com.Hospitality.HospitalityWebsiteProject.mapper.HotelMapper;
-import com.Hospitality.HospitalityWebsiteProject.repository.HotelRepository;
+import com.Hospitality.HospitalityWebsiteProject.hotel.mapper.HotelMapper;
+import com.Hospitality.HospitalityWebsiteProject.hotel.repository.HotelRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class HotelServiceImpl implements HotelServices {
 
     @Override
     public HotelResponseDTO createHotel(HotelRequestDTO hotelRequestDTO) {
-        if (hotelRepository.existsByName(hotelRequestDTO.getName())) {
+        if (hotelRepository.existsByName(hotelRequestDTO.name())) {
             throw new HotelAlreadyExistsException(
                     "Esse hotel já existe na base de dados.");
         }
@@ -84,18 +83,16 @@ public class HotelServiceImpl implements HotelServices {
                 HotelEntity entity = hotelRepository.findById(id).orElseThrow(() ->
                         new HotelNotFoundException(
                                 "Hotel não encontrado com o Id: " + id));
-                if (!entity.getName().equals(hotelRequestDTO.getName())) {
-                     entity.setName(hotelRequestDTO.getName());
+                if (!entity.getName().equals(hotelRequestDTO.name())) {
+                     entity.setName(hotelRequestDTO.name());
                 }
-                if (!entity.getCity().equals(hotelRequestDTO.getCity())) {
-                    entity.setCity(hotelRequestDTO.getCity());
+                if (!entity.getCity().equals(hotelRequestDTO.city())) {
+                    entity.setCity(hotelRequestDTO.city());
                 }
-                if (!entity.getState().equals(hotelRequestDTO.getState())) {
-                    entity.setState(hotelRequestDTO.getState());
+                if (!entity.getState().equals(hotelRequestDTO.state())) {
+                    entity.setState(hotelRequestDTO.state());
                 }
-                if (!entity.getPricePerDay().equals(hotelRequestDTO.getPricePerDay())) {
-                    entity.setPricePerDay(hotelRequestDTO.getPricePerDay());
-                }
+
                 @Valid HotelEntity saved = hotelRepository.saveAndFlush(entity);
 
                 return hotelMapper.toResponseDTO(saved);
@@ -142,33 +139,5 @@ public class HotelServiceImpl implements HotelServices {
         return  hotelMapper.toResponseList(hotelRepository.findAllByNameContainingIgnoreCase(name));
     }
 
-    @Override
-    public List<HotelResponseDTO> findByPricePerDayLessThan(Double price){
-        if(!hotelRepository.existsByPricePerDayLessThan(price)){
-            throw new HotelNotFoundException(
-                    "Não há hotel cadastrado com o valor abaixo de: " + price
-            );
-        }
-        return  hotelMapper.toResponseList(hotelRepository.findAllByPricePerDayLessThan(price));
-    }
 
-    @Override
-    public List<HotelResponseDTO> findByPricePerDayGreaterThan(Double price){
-        if(!hotelRepository.existsByPricePerDayGreaterThan(price)){
-            throw new HotelNotFoundException(
-                    "Não há hotel cadastrado com o valor acima de: " + price
-            );
-        }
-        return  hotelMapper.toResponseList(hotelRepository.findAllByPricePerDayGreaterThan(price));
-    }
-
-    @Override
-    public List<HotelResponseDTO> findByPricePerDayBetween(Double min, Double max){
-        if(!hotelRepository.existsByPricePerDayBetween(min, max)){
-            throw new HotelNotFoundException(
-                    "Não há hotel cadastrado com o valor entre: " + min + " e " + max
-            );
-        }
-        return  hotelMapper.toResponseList(hotelRepository.findAllByPricePerDayBetween(min, max));
-    }
 }

@@ -1,10 +1,8 @@
-package com.Hospitality.HospitalityWebsiteProject.mapper;
+package com.Hospitality.HospitalityWebsiteProject.hotel.mapper;
 
-import com.Hospitality.HospitalityWebsiteProject.DTO.HotelRequestDTO;
-import com.Hospitality.HospitalityWebsiteProject.DTO.HotelResponseDTO;
-import com.Hospitality.HospitalityWebsiteProject.entity.HotelEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import com.Hospitality.HospitalityWebsiteProject.hotel.dto.HotelRequestDTO;
+import com.Hospitality.HospitalityWebsiteProject.hotel.dto.HotelResponseDTO;
+import com.Hospitality.HospitalityWebsiteProject.hotel.entity.HotelEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -21,10 +19,10 @@ public class HotelMapper {
 
         HotelEntity hotel = new HotelEntity();
 
-        hotel.setName(dto.getName());
-        hotel.setCity(dto.getCity());
-        hotel.setState(dto.getState());
-        hotel.setPricePerDay(dto.getPricePerDay());
+        hotel.setName(dto.name());
+        hotel.setCity(dto.city());
+        hotel.setState(dto.state());
+
 
         list.add(hotel);
 
@@ -37,7 +35,8 @@ public class HotelMapper {
                 hotelEntity.getName(),
                 hotelEntity.getCity(),
                 hotelEntity.getState(),
-                hotelEntity.getPricePerDay());
+                hotelEntity.getRooms());
+
     }
 
     public List<HotelResponseDTO> toResponseList(List<HotelEntity> hotelEntity){

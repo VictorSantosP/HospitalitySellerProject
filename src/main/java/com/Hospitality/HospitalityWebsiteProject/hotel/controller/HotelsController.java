@@ -1,19 +1,15 @@
-package com.Hospitality.HospitalityWebsiteProject.controller;
+package com.Hospitality.HospitalityWebsiteProject.hotel.controller;
 
-import com.Hospitality.HospitalityWebsiteProject.DTO.HotelRequestDTO;
-import com.Hospitality.HospitalityWebsiteProject.DTO.HotelResponseDTO;
-import com.Hospitality.HospitalityWebsiteProject.entity.HotelEntity;
-import com.Hospitality.HospitalityWebsiteProject.services.HotelServiceImpl;
-import com.Hospitality.HospitalityWebsiteProject.services.HotelServices;
+import com.Hospitality.HospitalityWebsiteProject.hotel.dto.HotelRequestDTO;
+import com.Hospitality.HospitalityWebsiteProject.hotel.dto.HotelResponseDTO;
+import com.Hospitality.HospitalityWebsiteProject.hotel.services.HotelServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 
@@ -82,21 +78,4 @@ public class HotelsController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/list/price/max/{price}")
-    public ResponseEntity<List<HotelResponseDTO>> findByPricePerDayLessThan(@PathVariable Double price){
-        List<HotelResponseDTO> response = hotelServices.findByPricePerDayLessThan(price);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    @GetMapping("/list/price/min/{price}")
-    public ResponseEntity<List<HotelResponseDTO>> findByPricePerDayGreaterThan(@PathVariable Double price){
-        List<HotelResponseDTO> response = hotelServices.findByPricePerDayGreaterThan(price);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    @GetMapping("/list/price/between/{min}/{max}")
-    public ResponseEntity<List<HotelResponseDTO>> findByPricePerDayBetween(@PathVariable Double min, @PathVariable Double max){
-        List<HotelResponseDTO> response = hotelServices.findByPricePerDayBetween(min, max);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
 }
