@@ -3,10 +3,13 @@ package com.Hospitality.HospitalityWebsiteProject.repository;
 import com.Hospitality.HospitalityWebsiteProject.entity.HotelEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +20,10 @@ public interface HotelRepository extends JpaRepository<HotelEntity, Long> {
     Boolean existsByName(String name);
 
     Boolean existsByCityIgnoreCase(String city);
-    List<HotelEntity> findAllByCityIgnoreCase(String city);
+    @Query(value = """
+            SELECT h FROM HotelEntity h WHERE UPPER(h.city) = UPPER(:city)
+        """)
+    List<HotelEntity> findAllByCityIgnoreCase(@Param("city") String city);
 
     Boolean existsByStateIgnoreCase(String State);
     List<HotelEntity> findAllByStateIgnoreCase(String state);
