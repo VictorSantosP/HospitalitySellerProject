@@ -1,8 +1,10 @@
 package com.Hospitality.HospitalityWebsiteProject.room.services;
 
 import com.Hospitality.HospitalityWebsiteProject.exception.DataIntegrityException;
+import com.Hospitality.HospitalityWebsiteProject.exception.HotelNotFoundException;
 import com.Hospitality.HospitalityWebsiteProject.exception.RoomAlreadyExistsException;
 import com.Hospitality.HospitalityWebsiteProject.exception.RoomNotFoundException;
+import com.Hospitality.HospitalityWebsiteProject.hotel.repository.HotelRepository;
 import com.Hospitality.HospitalityWebsiteProject.room.dto.RoomRequestDTO;
 import com.Hospitality.HospitalityWebsiteProject.room.dto.RoomResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.room.entity.RoomEntity;
@@ -26,24 +28,31 @@ public class RoomServiceImpl implements RoomServices{
     private RoomMapper roomMapper;
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private HotelRepository hotelRepository;
 
     @Override
     public RoomResponseDTO createRoom(RoomRequestDTO dto){
-        if(roomRepository.existsByNumber(dto.number())){
-            throw new RoomAlreadyExistsException(
-                    "Esse quarto já está registrado."
-            );
-        }
-        try{
-            RoomEntity room = roomMapper.toEntity(dto);
-            RoomEntity saved = roomRepository.saveAndFlush(room);
+        if(!hotelRepository.existsById(dto.hotel_id())) {
+           throw new HotelNotFoundException(
+                   "Não é possível criar esse quarto, pois não existe hotel com o Id: " + dto.hotel_id());
+        }else{
+            try {
+                if (roomRepository.existsByNumber(dto.number())) {
+                    throw new RoomAlreadyExistsException(
+                            "Esse quarto já está registrado."
+                    );
+                }
+                RoomEntity room = roomMapper.toEntity(dto);
+                RoomEntity saved = roomRepository.saveAndFlush(room);
 
-            return roomMapper.toResponseDTO(room);
+                return roomMapper.toResponseDTO(room);
 
-        }catch (DataIntegrityViolationException e){
-            throw new DataIntegrityException(
-                    "Erro de integridade de dados."
-            );
+            } catch (DataIntegrityViolationException e) {
+                throw new DataIntegrityException(
+                        "Erro de integridade de dados."
+                );
+            }
         }
     }
 
