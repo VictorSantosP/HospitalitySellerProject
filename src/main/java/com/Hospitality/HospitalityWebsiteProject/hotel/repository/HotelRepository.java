@@ -30,13 +30,5 @@ public interface HotelRepository extends JpaRepository<HotelEntity, Long> {
 
     Boolean existsByNameContainingIgnoreCase(String name);
     List<HotelEntity> findAllByNameContainingIgnoreCase(String name);
-/*
-    Boolean existsByPricePerDayLessThan(Double price);
-    List<HotelEntity> findAllByPricePerDayLessThan(Double price);
 
-    Boolean existsByPricePerDayGreaterThan(Double price);
-    List<HotelEntity> findAllByPricePerDayGreaterThan(Double price);
-
-    Boolean existsByPricePerDayBetween(Double min, Double max);
-    List<HotelEntity> findAllByPricePerDayBetween(Double min, Double max);*/
 }

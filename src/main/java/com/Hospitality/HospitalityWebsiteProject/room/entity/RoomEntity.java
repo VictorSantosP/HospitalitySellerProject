@@ -2,6 +2,7 @@ package com.Hospitality.HospitalityWebsiteProject.room.entity;
 
 
 import com.Hospitality.HospitalityWebsiteProject.hotel.entity.HotelEntity;
+import com.Hospitality.HospitalityWebsiteProject.room.enums.Avaliability;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -20,19 +21,28 @@ public class RoomEntity {
 
     private Double price;
 
-    private String avaliable;
+    private Avaliability avaliable;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id")
     private HotelEntity hotelEntity;
 
-    public RoomEntity(Long id, Integer number, Integer capacity, Double price, String avaliable, HotelEntity hotelEntity) {
+    public RoomEntity(Long id, Integer number, Integer capacity, Double price, Avaliability avaliable, HotelEntity hotelEntity) {
         this.id = id;
         this.number = number;
         this.capacity = capacity;
         this.price = price;
         this.avaliable = avaliable;
         this.hotelEntity = hotelEntity;
+    }
+
+    public RoomEntity(){}
+
+    public RoomEntity(Integer number, Integer capacity, Double price, Avaliability avaliable) {
+        this.number = number;
+        this.capacity = capacity;
+        this.price = price;
+        this.avaliable = avaliable;
     }
 
     public Long getId() {
@@ -67,11 +77,11 @@ public class RoomEntity {
         this.price = price;
     }
 
-    public String getAvaliable() {
+    public Avaliability getAvaliable() {
         return avaliable;
     }
 
-    public void setAvaliable(String avaliable) {
+    public void setAvaliable(Avaliability avaliable) {
         this.avaliable = avaliable;
     }
 

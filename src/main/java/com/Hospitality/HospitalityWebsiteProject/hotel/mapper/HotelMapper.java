@@ -3,6 +3,8 @@ package com.Hospitality.HospitalityWebsiteProject.hotel.mapper;
 import com.Hospitality.HospitalityWebsiteProject.hotel.dto.HotelRequestDTO;
 import com.Hospitality.HospitalityWebsiteProject.hotel.dto.HotelResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.hotel.entity.HotelEntity;
+import com.Hospitality.HospitalityWebsiteProject.room.dto.RoomResponseDTO;
+import com.Hospitality.HospitalityWebsiteProject.room.mapper.RoomMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,7 +14,11 @@ import java.util.stream.Collectors;
 @Component
 public class HotelMapper {
 
-    List<HotelEntity> list = new ArrayList<>();
+    private final RoomMapper roomMapper;
+
+    public HotelMapper(RoomMapper roomMapper){
+        this.roomMapper = roomMapper;
+    }
 
 
     public HotelEntity toEntity(HotelRequestDTO dto){
@@ -24,18 +30,20 @@ public class HotelMapper {
         hotel.setState(dto.state());
 
 
-        list.add(hotel);
 
         return hotel;
     }
 
     public HotelResponseDTO toResponseDTO(HotelEntity hotelEntity){
 
+        List<RoomResponseDTO> rooms = hotelEntity.getRooms()
+                .stream().map(roomMapper::toResponseDTO).toList();
+
         return new HotelResponseDTO(hotelEntity.getId(),
                 hotelEntity.getName(),
                 hotelEntity.getCity(),
                 hotelEntity.getState(),
-                hotelEntity.getRooms());
+                rooms);
 
     }
 

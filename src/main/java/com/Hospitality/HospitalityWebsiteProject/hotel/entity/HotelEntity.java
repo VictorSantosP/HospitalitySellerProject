@@ -26,18 +26,25 @@ public class HotelEntity {
     @NotBlank(message = "State name is mandatory")
     @Size(min = 3, max = 50, message = "Valor inválido, maior que 50 e menor que 3")
     private String state;
-    @Positive
-    private Double pricePerDay;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "hotelEntity", cascade = CascadeType.ALL)
     private List<RoomEntity> rooms;
 
-    public HotelEntity(Long id, String name, String city, String state, Double pricePerDay, List<RoomEntity> rooms) {
+    public HotelEntity(Long id, String name, String city, String state, List<RoomEntity> rooms) {
         this.id = id;
         this.name = name;
         this.city = city;
         this.state = state;
-        this.pricePerDay = pricePerDay;
+
         this.rooms = rooms;
+    }
+    public HotelEntity(String name, String city, String state) {
+        this.name = name;
+        this.city = city;
+        this.state = state;
+    }
+
+    public HotelEntity() {
+
     }
 
     public Long getId() {
@@ -72,13 +79,7 @@ public class HotelEntity {
         this.state = state;
     }
 
-    public Double getPricePerDay() {
-        return pricePerDay;
-    }
 
-    public void setPricePerDay(Double pricePerDay) {
-        this.pricePerDay = pricePerDay;
-    }
 
     public List<RoomEntity> getRooms() {
         return rooms;
@@ -88,12 +89,4 @@ public class HotelEntity {
         this.rooms = rooms;
     }
 
-    @Override
-    public String toString() {
-        return "Hotel " + name
-                + "Id:" + id
-                + "Cidade e Estado"
-                + city + "-" + state
-                + String.format("%.2f",pricePerDay);
-    }
 }
