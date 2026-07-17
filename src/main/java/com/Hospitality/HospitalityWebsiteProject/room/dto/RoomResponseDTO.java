@@ -7,7 +7,8 @@ public record RoomResponseDTO (
         Avaliability avaliable,
         Integer capacity,
         Integer number,
-        Double price
+        Double price,
+        String hotel_name
 ){
 
 }

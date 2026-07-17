@@ -49,7 +49,7 @@ public class HotelsController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<HotelResponseDTO> UpdateById(@PathVariable Long id, @Valid @RequestBody HotelRequestDTO hotelRequestDTO){
+    public ResponseEntity<HotelResponseDTO> updateById(@PathVariable Long id, @Valid @RequestBody HotelRequestDTO hotelRequestDTO){
         HotelResponseDTO response = hotelServices.updateById(id, hotelRequestDTO);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

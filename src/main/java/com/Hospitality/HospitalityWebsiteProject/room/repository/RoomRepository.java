@@ -2,11 +2,14 @@ package com.Hospitality.HospitalityWebsiteProject.room.repository;
 
 import com.Hospitality.HospitalityWebsiteProject.room.entity.RoomEntity;
 import com.Hospitality.HospitalityWebsiteProject.room.enums.Avaliability;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface RoomRepository {
+@EnableJpaRepositories
+public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
     Optional<RoomEntity> findById(Long id);
 
     Boolean existsByAvaliability (Avaliability avaliability);
@@ -19,7 +22,7 @@ public interface RoomRepository {
     List<RoomEntity> findAllByPriceLessThan(Double price);
 
     Boolean existsByPriceGreaterThan(Double price);
-    List<RoomEntity> findAllByPriceyGreaterThan(Double price);
+    List<RoomEntity> findAllByPriceGreaterThan(Double price);
 
     Boolean existsByPriceBetween(Double min, Double max);
     List<RoomEntity> findAllByPriceBetween(Double min, Double max);
@@ -36,7 +39,7 @@ public interface RoomRepository {
     Boolean existsByCapacityGreaterThan(Integer capacity);
     List<RoomEntity> findAllByCapacityGreaterThan(Integer capacity);
 
-    Boolean existsByCapacityBetween(Double min, Double max);
-    List<RoomEntity> findAllByCapacityBetween(Double min, Double max);
+    Boolean existsByCapacityBetween(Integer min, Integer max);
+    List<RoomEntity> findAllByCapacityBetween(Integer min, Integer max);
 
 }

@@ -6,16 +6,19 @@ import com.Hospitality.HospitalityWebsiteProject.hotel.repository.HotelRepositor
 import com.Hospitality.HospitalityWebsiteProject.room.dto.RoomRequestDTO;
 import com.Hospitality.HospitalityWebsiteProject.room.dto.RoomResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.room.entity.RoomEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class RoomMapper {
-    private HotelRepository hotelRepo;
+    private final HotelRepository hotelRepo;
+
+    private HotelEntity hotel;
+
 
     public RoomEntity toEntity(RoomRequestDTO dto){
         RoomEntity room = new RoomEntity();
@@ -24,7 +27,7 @@ public class RoomMapper {
                 orElseThrow(() -> new HotelNotFoundException("" +
                         "Hotel não encontrado com o ID: " + dto.hotel_id()));
 
-        room.setAvaliable(dto.avaliable());
+        room.setAvaliability(dto.avaliable());
         room.setCapacity(dto.capacity());
         room.setHotelEntity(found);
         room.setPrice(dto.price());
@@ -35,10 +38,12 @@ public class RoomMapper {
 
     public RoomResponseDTO toResponseDTO(RoomEntity roomEntity){
         return new RoomResponseDTO(roomEntity.getId(),
-                roomEntity.getAvaliable(),
+                roomEntity.getAvaliability(),
                 roomEntity.getCapacity(),
                 roomEntity.getNumber(),
-                roomEntity.getPrice());
+                roomEntity.getPrice(),
+                roomEntity.getHotelEntity().getName()
+        );
     }
 
     public List<RoomResponseDTO> toResponseList(List<RoomEntity> roomEntities){

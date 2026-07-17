@@ -1,11 +1,8 @@
 package com.Hospitality.HospitalityWebsiteProject.room.entity;
 
-
 import com.Hospitality.HospitalityWebsiteProject.hotel.entity.HotelEntity;
 import com.Hospitality.HospitalityWebsiteProject.room.enums.Avaliability;
 import jakarta.persistence.*;
-
-import java.util.Objects;
 
 @Entity
 @Table(name = "Rooms")
@@ -21,29 +18,45 @@ public class RoomEntity {
 
     private Double price;
 
-    private Avaliability avaliable;
+    @Enumerated(EnumType.STRING)
+    private Avaliability avaliability;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "hotel_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hotel_id", nullable = false)
     private HotelEntity hotelEntity;
 
-    public RoomEntity(Long id, Integer number, Integer capacity, Double price, Avaliability avaliable, HotelEntity hotelEntity) {
+
+    public RoomEntity() {
+    }
+
+    public RoomEntity(
+            Long id,
+            Integer number,
+            Integer capacity,
+            Double price,
+            Avaliability avaliability,
+            HotelEntity hotelEntity
+    ) {
         this.id = id;
         this.number = number;
         this.capacity = capacity;
         this.price = price;
-        this.avaliable = avaliable;
+        this.avaliability = avaliability;
         this.hotelEntity = hotelEntity;
     }
 
-    public RoomEntity(){}
-
-    public RoomEntity(Integer number, Integer capacity, Double price, Avaliability avaliable) {
+    public RoomEntity(
+            Integer number,
+            Integer capacity,
+            Double price,
+            Avaliability avaliability
+    ) {
         this.number = number;
         this.capacity = capacity;
         this.price = price;
-        this.avaliable = avaliable;
+        this.avaliability = avaliability;
     }
+
 
     public Long getId() {
         return id;
@@ -77,12 +90,12 @@ public class RoomEntity {
         this.price = price;
     }
 
-    public Avaliability getAvaliable() {
-        return avaliable;
+    public Avaliability getAvaliability() {
+        return avaliability;
     }
 
-    public void setAvaliable(Avaliability avaliable) {
-        this.avaliable = avaliable;
+    public void setAvaliability(Avaliability avaliability) {
+        this.avaliability = avaliability;
     }
 
     public HotelEntity getHotelEntity() {
@@ -92,17 +105,4 @@ public class RoomEntity {
     public void setHotelEntity(HotelEntity hotelEntity) {
         this.hotelEntity = hotelEntity;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        RoomEntity that = (RoomEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(number, that.number) && Objects.equals(capacity, that.capacity) && Objects.equals(price, that.price) && Objects.equals(avaliable, that.avaliable) && Objects.equals(hotelEntity, that.hotelEntity);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, number, capacity, price, avaliable, hotelEntity);
-    }
-
 }

@@ -5,6 +5,7 @@ import com.Hospitality.HospitalityWebsiteProject.hotel.dto.HotelResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.hotel.entity.HotelEntity;
 import com.Hospitality.HospitalityWebsiteProject.room.dto.RoomResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.room.mapper.RoomMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,13 +13,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class HotelMapper {
 
     private final RoomMapper roomMapper;
-
-    public HotelMapper(RoomMapper roomMapper){
-        this.roomMapper = roomMapper;
-    }
 
 
     public HotelEntity toEntity(HotelRequestDTO dto){
