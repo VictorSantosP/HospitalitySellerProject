@@ -4,6 +4,7 @@ import com.Hospitality.HospitalityWebsiteProject.hotel.dto.HotelRequestDTO;
 import com.Hospitality.HospitalityWebsiteProject.hotel.dto.HotelResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.hotel.services.HotelServices;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -15,14 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/hotels")
+@RequiredArgsConstructor
 public class HotelsController {
 
     private final HotelServices hotelServices;
-
-    @Autowired
-    public HotelsController(HotelServices hotelServices){
-        this.hotelServices = hotelServices;
-    }
 
     @PostMapping
     public ResponseEntity<HotelResponseDTO> createHotel(@Valid @RequestBody HotelRequestDTO hotelRequestDTO){

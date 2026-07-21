@@ -126,6 +126,19 @@ public class GlobalExceptionHandler{
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<ApiError> handleInvalidReservation(InvalidRequestException ex, HttpServletRequest request) {
+                ApiError error = new ApiError(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+
+        );
+
+        return ResponseEntity.badRequest().body(error);
+    }
 
 
 

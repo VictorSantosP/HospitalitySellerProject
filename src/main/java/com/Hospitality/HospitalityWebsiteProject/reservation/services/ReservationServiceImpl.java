@@ -1,9 +1,6 @@
 package com.Hospitality.HospitalityWebsiteProject.reservation.services;
 
-import com.Hospitality.HospitalityWebsiteProject.exception.DataIntegrityException;
-import com.Hospitality.HospitalityWebsiteProject.exception.ReservationAlreadyExists;
-import com.Hospitality.HospitalityWebsiteProject.exception.ReservationNotFoundException;
-import com.Hospitality.HospitalityWebsiteProject.exception.RoomNotFoundException;
+import com.Hospitality.HospitalityWebsiteProject.exception.*;
 import com.Hospitality.HospitalityWebsiteProject.reservation.dto.ReservationRequestDTO;
 import com.Hospitality.HospitalityWebsiteProject.reservation.dto.ReservationResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.reservation.entity.ReservationEntity;
@@ -35,6 +32,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationResponseDTO createReservation(ReservationRequestDTO requestDTO) {
+        if(!requestDTO.checkIn().isBefore(requestDTO.checkOut())){
+            throw new InvalidRequestException(
+                    "A data de checkIn deve ser anterior à data de chekOut"
+            );
+        }
         RoomEntity room = roomRepository.findById(requestDTO.room_id()).
                 orElseThrow(() -> new RoomNotFoundException(
                         "Quarto não encontrado com o ID: " + requestDTO.room_id()
@@ -85,7 +87,7 @@ public class ReservationServiceImpl implements ReservationService {
             );
         }
         try{
-            roomRepository.deleteById(id);
+            reservationRepository.deleteById(id);
         }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException(
                     "Erro de integridade de dados."
@@ -96,6 +98,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationResponseDTO updateById(Long id, ReservationRequestDTO requestDTO) {
+        if(!requestDTO.checkIn().isBefore(requestDTO.checkOut())) {
+            throw new InvalidRequestException(
+                    "A data de checkIn deve ser anterior à data de chekOut"
+            );
+        }
         ReservationEntity reservation = reservationRepository.findById(id).
                 orElseThrow(() -> new ReservationNotFoundException(
                         "Reservation não encontrado com o ID:" + id
@@ -122,7 +129,12 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<ReservationResponseDTO> findAllByRoomId(Long id) {
-        List<ReservationEntity> roomsReservations = roomRepository.findAllById(id);
+        if(!reservationRepository.existsByRoomId(id)){
+            throw new RoomNotFoundException(
+                    "Não há hotel com o ID:" + id
+            );
+        }
+        List<ReservationEntity> roomsReservations = reservationRepository.findAllByRoomId(id);
         return roomsReservations.stream().
                 map(reservationMapper::toResponseDTO)
                 .collect(Collectors.toList());

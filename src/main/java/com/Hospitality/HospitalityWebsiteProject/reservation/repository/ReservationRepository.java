@@ -16,13 +16,13 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
     boolean existsByRoomId(Long roomId);
 
     @Query("""
-        SELECT r 
+        SELECT COUNT (r) > 0 
         FROM ReservationEntity r
-        WHERE r.roomId = :roomId
+        WHERE r.room.id = :roomId
         AND r.checkIn < :checkOut
         AND r.checkOut > :checkIn
 """)
-    Boolean existsByOverlappingReservation(@Param("roomId") Long roomId,
+    boolean existsByOverlappingReservation(@Param("roomId") Long roomId,
                                            @Param("checkIn") LocalDate checkIn,
                                            @Param("checkOut") LocalDate checkOut);
 
