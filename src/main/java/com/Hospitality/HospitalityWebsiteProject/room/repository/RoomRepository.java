@@ -1,5 +1,6 @@
 package com.Hospitality.HospitalityWebsiteProject.room.repository;
 
+import com.Hospitality.HospitalityWebsiteProject.reservation.entity.ReservationEntity;
 import com.Hospitality.HospitalityWebsiteProject.room.entity.RoomEntity;
 import com.Hospitality.HospitalityWebsiteProject.room.enums.Avaliability;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -42,4 +43,5 @@ public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
     Boolean existsByCapacityBetween(Integer min, Integer max);
     List<RoomEntity> findAllByCapacityBetween(Integer min, Integer max);
 
+    List<ReservationEntity> findAllById(Long id);
 }

@@ -38,12 +38,13 @@ public class RoomServiceImpl implements RoomServices{
                 .orElseThrow(() -> new HotelNotFoundException(
                         "Hotel não encontrado com o ID: " + dto.hotel_id()
                 ));
+        if (roomRepository.existsByNumber(dto.number())) {
+            throw new RoomAlreadyExistsException(
+                    "Esse quarto já está registrado."
+            );
+        }
         try {
-                if (roomRepository.existsByNumber(dto.number())) {
-                    throw new RoomAlreadyExistsException(
-                            "Esse quarto já está registrado."
-                    );
-                }
+
                 RoomEntity room = roomMapper.toEntity(dto);
                 room.setHotelEntity(hotel);
                 RoomEntity saved = roomRepository.saveAndFlush(room);
@@ -78,9 +79,8 @@ public class RoomServiceImpl implements RoomServices{
     public void deleteById(Long id){
         if(roomRepository.existsById(id)){
             try{
-                if(roomRepository.existsById(id)){
-                    roomRepository.deleteById(id);
-                }
+                roomRepository.deleteById(id);
+
             }catch (DataIntegrityViolationException e){
                 throw new DataIntegrityException(
                         "Erro de integridade de dados."

@@ -9,11 +9,11 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ReservationService {
-    ReservationResponseDTO createRoom (ReservationRequestDTO requestDTO);
+    ReservationResponseDTO createReservation (ReservationRequestDTO requestDTO);
     Page<ReservationResponseDTO> findAll (Pageable pageable);
     ReservationResponseDTO findById(Long id);
     void deleteById(Long id);
     ReservationResponseDTO updateById(Long id, ReservationRequestDTO requestDTO);
-    List<ReservationEntity> findAllByRoomId(Long id);
+    List<ReservationResponseDTO> findAllByRoomId(Long id);
 
 }
