@@ -2,6 +2,8 @@ package com.Hospitality.HospitalityWebsiteProject.reservation.repository;
 
 import com.Hospitality.HospitalityWebsiteProject.reservation.entity.ReservationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,12 +12,19 @@ import java.util.Optional;
 public interface ReservationRepository extends JpaRepository<ReservationEntity, Long> {
     Optional<ReservationEntity> findById (Long id);
 
-    Boolean existsByCheckIn(LocalDate checkIn);
-    List<ReservationEntity> findByCheckIn(LocalDate checkIn);
+    List<ReservationEntity> findAllByRoomId(Long roomId);
+    boolean existsByRoomId(Long roomId);
 
-    Boolean existsByCheckOut(LocalDate checkOut);
-    List<ReservationEntity> findByCheckOut(LocalDate checkOut);
+    @Query("""
+        SELECT r 
+        FROM ReservationEntity r
+        WHERE r.roomId = :roomId
+        AND r.checkIn < :checkOut
+        AND r.checkOut > :checkIn
+""")
+    Boolean existsByOverlappingReservation(@Param("roomId") Long roomId,
+                                           @Param("checkIn") LocalDate checkIn,
+                                           @Param("checkOut") LocalDate checkOut);
 
-    Boolean existsByCheckOutBetween(LocalDate checkOut);
-    List<ReservationEntity> findByCheckOutBetween(LocalDate checkOut);
+
 }

@@ -17,19 +17,11 @@ import java.util.stream.Collectors;
 public class RoomMapper {
     private final HotelRepository hotelRepo;
 
-    private HotelEntity hotel;
-
-
     public RoomEntity toEntity(RoomRequestDTO dto){
         RoomEntity room = new RoomEntity();
 
-        HotelEntity found = hotelRepo.findById(dto.hotel_id()).
-                orElseThrow(() -> new HotelNotFoundException("" +
-                        "Hotel não encontrado com o ID: " + dto.hotel_id()));
-
         room.setAvaliability(dto.avaliable());
         room.setCapacity(dto.capacity());
-        room.setHotelEntity(found);
         room.setPrice(dto.price());
         room.setNumber(dto.number());
 

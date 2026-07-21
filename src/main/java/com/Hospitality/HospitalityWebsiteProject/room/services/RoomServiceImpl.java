@@ -4,6 +4,7 @@ import com.Hospitality.HospitalityWebsiteProject.exception.DataIntegrityExceptio
 import com.Hospitality.HospitalityWebsiteProject.exception.HotelNotFoundException;
 import com.Hospitality.HospitalityWebsiteProject.exception.RoomAlreadyExistsException;
 import com.Hospitality.HospitalityWebsiteProject.exception.RoomNotFoundException;
+import com.Hospitality.HospitalityWebsiteProject.hotel.entity.HotelEntity;
 import com.Hospitality.HospitalityWebsiteProject.hotel.repository.HotelRepository;
 import com.Hospitality.HospitalityWebsiteProject.room.dto.RoomRequestDTO;
 import com.Hospitality.HospitalityWebsiteProject.room.dto.RoomResponseDTO;
@@ -33,26 +34,27 @@ public class RoomServiceImpl implements RoomServices{
 
     @Override
     public RoomResponseDTO createRoom(RoomRequestDTO dto){
-        if(!hotelRepository.existsById(dto.hotel_id())) {
-           throw new HotelNotFoundException(
-                   "Não é possível criar esse quarto, pois não existe hotel com o Id: " + dto.hotel_id());
-        }else{
-            try {
+        HotelEntity hotel = hotelRepository.findById(dto.hotel_id())
+                .orElseThrow(() -> new HotelNotFoundException(
+                        "Hotel não encontrado com o ID: " + dto.hotel_id()
+                ));
+        try {
                 if (roomRepository.existsByNumber(dto.number())) {
                     throw new RoomAlreadyExistsException(
                             "Esse quarto já está registrado."
                     );
                 }
                 RoomEntity room = roomMapper.toEntity(dto);
+                room.setHotelEntity(hotel);
                 RoomEntity saved = roomRepository.saveAndFlush(room);
 
-                return roomMapper.toResponseDTO(room);
+                return roomMapper.toResponseDTO(saved);
 
             } catch (DataIntegrityViolationException e) {
                 throw new DataIntegrityException(
                         "Erro de integridade de dados."
                 );
-            }
+
         }
     }
 

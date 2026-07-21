@@ -6,7 +6,7 @@ public record ReservationResponseDTO(
         Long id,
         LocalDate checkIn,
         LocalDate checkOut,
-        String room_id,
+        Long room_id,
         String hotel_name
 ) {
 

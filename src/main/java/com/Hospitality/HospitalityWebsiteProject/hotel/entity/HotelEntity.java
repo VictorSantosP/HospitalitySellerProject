@@ -4,16 +4,24 @@ import com.Hospitality.HospitalityWebsiteProject.room.entity.RoomEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Hotels")
+@Getter
+@NoArgsConstructor
+@Setter
 public class HotelEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @NotBlank(message = "Name is mandatory")
@@ -50,33 +58,6 @@ public class HotelEntity {
     private List<RoomEntity> rooms = new ArrayList<>();
 
 
-    public HotelEntity() {
-    }
-
-    public HotelEntity(
-            Long id,
-            String name,
-            String city,
-            String state,
-            List<RoomEntity> rooms
-    ) {
-        this.id = id;
-        this.name = name;
-        this.city = city;
-        this.state = state;
-        this.rooms = rooms;
-    }
-
-    public HotelEntity(
-            String name,
-            String city,
-            String state
-    ) {
-        this.name = name;
-        this.city = city;
-        this.state = state;
-    }
-
 
     public void addRoom(RoomEntity room) {
         rooms.add(room);
@@ -89,43 +70,5 @@ public class HotelEntity {
     }
 
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public List<RoomEntity> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(List<RoomEntity> rooms) {
-        this.rooms = rooms;
-    }
 }
