@@ -7,8 +7,8 @@ import com.Hospitality.HospitalityWebsiteProject.reservation.entity.ReservationE
 import com.Hospitality.HospitalityWebsiteProject.reservation.mapper.ReservationMapper;
 import com.Hospitality.HospitalityWebsiteProject.reservation.repository.ReservationRepository;
 import com.Hospitality.HospitalityWebsiteProject.room.entity.RoomEntity;
-import com.Hospitality.HospitalityWebsiteProject.room.mapper.RoomMapper;
 import com.Hospitality.HospitalityWebsiteProject.room.repository.RoomRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -31,6 +31,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final RoomRepository roomRepository;
 
     @Override
+    @Transactional
     public ReservationResponseDTO createReservation(ReservationRequestDTO requestDTO) {
         if(!requestDTO.checkIn().isBefore(requestDTO.checkOut())){
             throw new InvalidRequestException(
@@ -44,7 +45,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (reservationRepository.existsByOverlappingReservation(requestDTO.room_id(),
                 requestDTO.checkIn(),
                 requestDTO.checkOut())) {
-            throw new ReservationAlreadyExists(
+            throw new ReservationAlreadyExistsException(
                     "Quarto não possui reserva disponivel no intervalo informado."
             );
         }
@@ -80,6 +81,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         if(!reservationRepository.existsById(id)){
             throw new ReservationNotFoundException(
@@ -97,6 +99,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    @Transactional
     public ReservationResponseDTO updateById(Long id, ReservationRequestDTO requestDTO) {
         if(!requestDTO.checkIn().isBefore(requestDTO.checkOut())) {
             throw new InvalidRequestException(
@@ -110,7 +113,7 @@ public class ReservationServiceImpl implements ReservationService {
         if(reservationRepository.existsByOverlappingReservation(id,
                 requestDTO.checkIn(),
                 requestDTO.checkOut())){
-            throw new ReservationAlreadyExists(
+            throw new ReservationAlreadyExistsException(
                     "O quarto já está reservado na data informada."
             );
         }

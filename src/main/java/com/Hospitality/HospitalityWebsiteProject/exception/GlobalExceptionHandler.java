@@ -102,8 +102,8 @@ public class GlobalExceptionHandler{
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
-    @ExceptionHandler(ReservationAlreadyExists.class)
-    public ResponseEntity<ApiError> handleReservationAlreadyExists(ReservationAlreadyExists ex, HttpServletRequest request){
+    @ExceptionHandler(ReservationAlreadyExistsException.class)
+    public ResponseEntity<ApiError> handleReservationAlreadyExists(ReservationAlreadyExistsException ex, HttpServletRequest request){
         ApiError error = new ApiError(
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT.value(),

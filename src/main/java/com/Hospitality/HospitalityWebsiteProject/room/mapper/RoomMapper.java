@@ -3,6 +3,8 @@ package com.Hospitality.HospitalityWebsiteProject.room.mapper;
 import com.Hospitality.HospitalityWebsiteProject.exception.HotelNotFoundException;
 import com.Hospitality.HospitalityWebsiteProject.hotel.entity.HotelEntity;
 import com.Hospitality.HospitalityWebsiteProject.hotel.repository.HotelRepository;
+import com.Hospitality.HospitalityWebsiteProject.reservation.dto.ReservationResponseDTO;
+import com.Hospitality.HospitalityWebsiteProject.reservation.mapper.ReservationMapper;
 import com.Hospitality.HospitalityWebsiteProject.room.dto.RoomRequestDTO;
 import com.Hospitality.HospitalityWebsiteProject.room.dto.RoomResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.room.entity.RoomEntity;
@@ -15,7 +17,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class RoomMapper {
-    private final HotelRepository hotelRepo;
+    private final ReservationMapper reservationMapper;
 
     public RoomEntity toEntity(RoomRequestDTO dto){
         RoomEntity room = new RoomEntity();
@@ -29,12 +31,20 @@ public class RoomMapper {
     }
 
     public RoomResponseDTO toResponseDTO(RoomEntity roomEntity){
+
+        List<ReservationResponseDTO> reservations = roomEntity
+                .getReservations()
+                .stream()
+                .map(reservationMapper::toResponseDTO).toList();
         return new RoomResponseDTO(roomEntity.getId(),
                 roomEntity.getAvaliability(),
                 roomEntity.getCapacity(),
                 roomEntity.getNumber(),
                 roomEntity.getPrice(),
-                roomEntity.getHotelEntity().getName()
+                roomEntity.getHotelEntity().getName(),
+                reservations
+
+
         );
     }
 

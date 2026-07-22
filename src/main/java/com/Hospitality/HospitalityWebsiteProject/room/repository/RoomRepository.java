@@ -43,5 +43,4 @@ public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
     Boolean existsByCapacityBetween(Integer min, Integer max);
     List<RoomEntity> findAllByCapacityBetween(Integer min, Integer max);
 
-    List<ReservationEntity> findAllById(Long id);
 }

@@ -97,6 +97,7 @@ public class HotelServiceImpl implements HotelServices {
 
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
 
         HotelEntity hotel =
@@ -122,6 +123,7 @@ public class HotelServiceImpl implements HotelServices {
 
 
     @Override
+    @Transactional
     public HotelResponseDTO updateById(
             Long id,
             HotelRequestDTO hotelRequestDTO

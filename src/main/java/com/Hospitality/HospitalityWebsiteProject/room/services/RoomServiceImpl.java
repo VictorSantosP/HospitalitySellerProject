@@ -12,6 +12,7 @@ import com.Hospitality.HospitalityWebsiteProject.room.entity.RoomEntity;
 import com.Hospitality.HospitalityWebsiteProject.room.enums.Avaliability;
 import com.Hospitality.HospitalityWebsiteProject.room.mapper.RoomMapper;
 import com.Hospitality.HospitalityWebsiteProject.room.repository.RoomRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -33,6 +34,7 @@ public class RoomServiceImpl implements RoomServices{
     private HotelRepository hotelRepository;
 
     @Override
+    @Transactional
     public RoomResponseDTO createRoom(RoomRequestDTO dto){
         HotelEntity hotel = hotelRepository.findById(dto.hotel_id())
                 .orElseThrow(() -> new HotelNotFoundException(
@@ -76,6 +78,7 @@ public class RoomServiceImpl implements RoomServices{
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id){
         if(roomRepository.existsById(id)){
             try{
@@ -94,6 +97,7 @@ public class RoomServiceImpl implements RoomServices{
     }
 
     @Override
+    @Transactional
     public RoomResponseDTO updateById(Long id, RoomRequestDTO dto){
         try{
             RoomEntity room = roomRepository.findById(id).orElseThrow(
@@ -227,7 +231,4 @@ public class RoomServiceImpl implements RoomServices{
         return roomMapper.toResponseList(
                 roomRepository.findAllByPriceBetween(min, max));
     }
-
-
-
 }

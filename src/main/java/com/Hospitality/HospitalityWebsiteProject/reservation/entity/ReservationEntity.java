@@ -30,12 +30,8 @@ public class ReservationEntity {
     @JoinColumn(name = "room_id", nullable = false)
     private RoomEntity room;
 
-    public ReservationEntity(Long id, LocalDate checkIn, LocalDate checkOut, RoomEntity room) {
-        this.id = id;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
-        this.room = room;
-    }
+
+
 
 
     @Override

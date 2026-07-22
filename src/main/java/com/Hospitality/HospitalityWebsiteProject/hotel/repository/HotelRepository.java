@@ -14,7 +14,6 @@ import java.util.Optional;
 public interface HotelRepository extends JpaRepository<HotelEntity, Long> {
 
     Optional<HotelEntity> findById(Long id);
-    Boolean existsByName(String name);
 
     Boolean existsByCityIgnoreCase(String city);
     @Query(value = """

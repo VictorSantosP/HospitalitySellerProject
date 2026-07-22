@@ -24,29 +24,12 @@ public class HotelEntity {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @NotBlank(message = "Name is mandatory")
-    @Size(
-            min = 2,
-            max = 200,
-            message = "Nome maior que 200 ou menor que 2"
-    )
+
     @Column(unique = true)
     private String name;
-
-    @NotBlank(message = "City name is mandatory")
-    @Size(
-            min = 3,
-            max = 50,
-            message = "Valor inválido, maior que 50 ou menor que 3"
-    )
     private String city;
 
-    @NotBlank(message = "State name is mandatory")
-    @Size(
-            min = 3,
-            max = 50,
-            message = "Valor inválido, maior que 50 ou menor que 3"
-    )
+
     private String state;
 
     @OneToMany(
