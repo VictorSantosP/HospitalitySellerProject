@@ -1,6 +1,7 @@
 package com.Hospitality.HospitalityWebsiteProject.reservation.entity;
 
 import com.Hospitality.HospitalityWebsiteProject.room.entity.RoomEntity;
+import com.Hospitality.HospitalityWebsiteProject.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -30,6 +31,9 @@ public class ReservationEntity {
     @JoinColumn(name = "room_id", nullable = false)
     private RoomEntity room;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
 
 

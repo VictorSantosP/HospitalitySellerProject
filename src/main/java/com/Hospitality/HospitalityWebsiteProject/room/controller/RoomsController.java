@@ -8,6 +8,7 @@ import com.Hospitality.HospitalityWebsiteProject.room.dto.RoomResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.room.enums.Avaliability;
 import com.Hospitality.HospitalityWebsiteProject.room.services.RoomServices;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,14 +20,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rooms")
+@RequiredArgsConstructor
 public class RoomsController {
 
     private final RoomServices roomServices;
-
-    @Autowired
-    public RoomsController(RoomServices roomServices){
-        this.roomServices = roomServices;
-    }
 
     @PostMapping
     public ResponseEntity<RoomResponseDTO> createHotel(@Valid @RequestBody RoomRequestDTO roomRequestDTO){
