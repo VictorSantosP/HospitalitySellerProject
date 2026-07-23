@@ -6,6 +6,7 @@ import com.Hospitality.HospitalityWebsiteProject.user.enums.UserRole;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 
 
 public interface UserService {
@@ -14,7 +15,7 @@ public interface UserService {
     UserResponseDTO findById (Long id);
     void deleteById (Long id);
     UserResponseDTO updateById (Long id, UserRequestDTO requestDTO);
-    UserResponseDTO findALlByName(String name);
+    List<UserResponseDTO> findAllByNameContaining(String name);
     UserResponseDTO findByEmail(String email);
-    UserResponseDTO findAllByRole(UserRole role);
+    List<UserResponseDTO> findAllByRole(UserRole role);
 }

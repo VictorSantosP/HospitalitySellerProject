@@ -1,5 +1,6 @@
 package com.Hospitality.HospitalityWebsiteProject.user.dto;
 
+import com.Hospitality.HospitalityWebsiteProject.reservation.dto.ReservationResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.reservation.entity.ReservationEntity;
 import com.Hospitality.HospitalityWebsiteProject.user.enums.UserRole;
 
@@ -10,7 +11,7 @@ public record UserResponseDTO (
         String name,
         String phone,
         UserRole role,
-        List<ReservationEntity> reservations
+        List<ReservationResponseDTO> reservations
 
 ) {
 }

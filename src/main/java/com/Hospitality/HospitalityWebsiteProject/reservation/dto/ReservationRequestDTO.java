@@ -17,6 +17,10 @@ public record ReservationRequestDTO(
         @NotNull(message = "Valor não pode ser nulo")
         @Positive(message = "Valor não pode ser negativo")
         @Max(value = 999999, message = "Valor excedido. Limite = 999999")
-        Long room_id
+        Long room_id,
+        @NotNull(message = "Valor não pode ser nulo")
+        @Positive(message = "Valor não pode ser negativo")
+        @Max(value = 999999, message = "Valor excedido. Limite = 999999")
+        Long user_id
 ) {
 }

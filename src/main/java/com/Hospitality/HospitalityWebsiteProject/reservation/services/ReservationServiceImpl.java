@@ -8,6 +8,8 @@ import com.Hospitality.HospitalityWebsiteProject.reservation.mapper.ReservationM
 import com.Hospitality.HospitalityWebsiteProject.reservation.repository.ReservationRepository;
 import com.Hospitality.HospitalityWebsiteProject.room.entity.RoomEntity;
 import com.Hospitality.HospitalityWebsiteProject.room.repository.RoomRepository;
+import com.Hospitality.HospitalityWebsiteProject.user.entity.UserEntity;
+import com.Hospitality.HospitalityWebsiteProject.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
     @Autowired
     private final RoomRepository roomRepository;
+    @Autowired
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
@@ -42,6 +46,10 @@ public class ReservationServiceImpl implements ReservationService {
                 orElseThrow(() -> new RoomNotFoundException(
                         "Quarto não encontrado com o ID: " + requestDTO.room_id()
                 ));
+        UserEntity user = userRepository.findById(requestDTO.user_id()).
+                orElseThrow(() -> new UserNotFoundException(
+                        "Usuário não encontrado com o ID: " + requestDTO.user_id()
+                ));
         if (reservationRepository.existsByOverlappingReservation(requestDTO.room_id(),
                 requestDTO.checkIn(),
                 requestDTO.checkOut())) {
@@ -53,6 +61,7 @@ public class ReservationServiceImpl implements ReservationService {
 
                 ReservationEntity reservation = reservationMapper.toEntity(requestDTO);
                 reservation.setRoom(room);
+                reservation.setUser(user);
                 ReservationEntity saved = reservationRepository.saveAndFlush(reservation);
 
                 return reservationMapper.toResponseDTO(saved);
