@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,11 +28,13 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService{
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
     @Autowired
-    private ReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
+    @Autowired
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -44,6 +47,12 @@ public class UserServiceImpl implements UserService{
         }
         try{
             UserEntity user = userMapper.toEntity(requestDTO);
+
+            user.setPassword(
+                    passwordEncoder.encode(
+                            user.getPassword()
+                    )
+            );
 
             if(user.getReservations() != null){
                 user.getReservations().forEach(reservation -> reservation.setUser(user));
