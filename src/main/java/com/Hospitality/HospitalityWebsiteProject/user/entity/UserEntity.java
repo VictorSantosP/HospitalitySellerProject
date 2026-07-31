@@ -61,7 +61,7 @@ public class UserEntity implements UserDetails {
     public String getPassword(){
         return this.password;
     }
-    
+
 
     @Override
     public boolean isAccountNonExpired(){
