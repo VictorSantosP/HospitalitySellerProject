@@ -1,5 +1,6 @@
 package com.Hospitality.HospitalityWebsiteProject.security;
 
+import com.Hospitality.HospitalityWebsiteProject.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +31,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/**").permitAll()
+                        .requestMatchers("/auth/login",
+                                "/users").permitAll()
                         .anyRequest().authenticated()
                 )
 
@@ -54,5 +56,5 @@ public class SecurityConfig {
             AuthenticationConfiguration config) throws Exception{
         return config.getAuthenticationManager();
     }
-    
+
 }

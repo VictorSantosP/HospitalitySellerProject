@@ -1,4 +1,4 @@
-package com.Hospitality.HospitalityWebsiteProject.security;
+package com.Hospitality.HospitalityWebsiteProject.security.service;
 
 import com.Hospitality.HospitalityWebsiteProject.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
