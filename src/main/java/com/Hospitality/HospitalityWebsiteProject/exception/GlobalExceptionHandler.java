@@ -78,7 +78,7 @@ public class GlobalExceptionHandler{
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    
+
     @ExceptionHandler(RoomAlreadyExistsException.class)
     public ResponseEntity<ApiError> handleRoomlAlreadyExists(RoomAlreadyExistsException ex, HttpServletRequest request){
         ApiError error = new ApiError(
