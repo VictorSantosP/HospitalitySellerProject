@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { DefaultLoginLayout } from '../../components/default-login-layout/default-login-layout';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { DefaultFormInput } from '../../components/default-form-input/default-form-input';
 
 @Component({
   imports: [
     DefaultLoginLayout,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DefaultFormInput
   ],
   selector: 'app-login',
   styleUrl: './login.css',
