@@ -4,9 +4,11 @@
             <img src="/assets/svg/login-background-photo.svg" class="login-image">
             <div class="overlay-section">
                 <div class="upper-overlay-section">
-                    <img src="/assets/svg/screen.svg">
-                    <h2>Aura Grand</h2>
-                    <p>Palais & Residence</p> 
+                    <img src="/assets/svg/screen.svg" class="logo">
+                    <div class="logo-title">
+                        <h2 class="logo-title-h2">Aura Grand</h2>
+                        <p>Palais & Residence</p>
+                    </div>
                 </div>
                 <div class="mid-overlay-section">
                     <p>THE DISCERNING TRAVELER</p> 
@@ -15,18 +17,25 @@
             </div>
         </section>
         <section class="input-section">
-            <h1>Welcome to Your Residence</h1>
-            <p>Enter your privileged credentials to manage suite arrangements, tailor culinary selections, and review personal itinerary folios. </p>
+            <h1>Welcome to Your <span class="residence-text">Residence</span></h1>
+            <p class="title-desc">Enter your privileged credentials to manage suite arrangements, tailor culinary selections, and review personal itinerary folios. </p>
             <ng-content></ng-content>
-            <input type="checkbox" id="inscricao" name="newslettet" value="sim">
-            <label for="inscricao">Remember this workstation for private access</label>
+            <!-- 
+            ///// jogar tudo pro ngc content ////
+            <div class="checkbox-container">
+                <input type="checkbox" id="inscricao" name="newslettet" value="sim">
+                <label for="inscricao">Remember this workstation for private access</label>
+            </div> -->
             <div class="btn-wrapper">
-                <button>bt1</button>
-                <button>bt2</button>
+                <button class="btn-primary">bt1</button>
+                <button class="btn-secondary">bt2</button>
             </div>
             <section class="info-section">
-                <h2>Loyalty Privilege Status</h2>
-                <p>Guaranteeing you an excellent experience.</p>
+                <img src="/assets/svg/Icon.svg" class="info-icon">
+                <div class="info-desc">
+                    <h2>Loyalty Privilege Status</h2>
+                    <p>Guaranteeing you an premium experience with personalized hosting options.</p>
+                </div>
             </section>
         </section>
     </div>
