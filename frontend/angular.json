@@ -25,6 +25,7 @@
               }
             ],
             "styles": [
+              "src/styles/variables.css",
               "src/styles.css"
             ]
           },
