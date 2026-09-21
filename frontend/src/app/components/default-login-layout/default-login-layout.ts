@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   imports: [],
@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
   styleUrl: './default-login-layout.css',
   templateUrl: './default-login-layout.html',
 })
-export class DefaultLoginLayout {}
+export class DefaultLoginLayout {
+  @Input() primaryBtnText: string = "";
+  @Input() secondaryBtnText: string = "";
+}
