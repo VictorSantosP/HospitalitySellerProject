@@ -1,13 +1,53 @@
-input {
-    width: 100%;
-    padding: 18px 16px 19px 0;
-
-    border: none;
-    border-radius: 8px;
-
-    background-color: var(--tertiary-color);
+.input-wrapper{
     color: var(--input-placeholder-color);
-
     font-size: 15;
-    font-weight: 400;
+    text-align: start;
+
+    label {
+        font-size: 10px;
+    }
+
+    .input-content {
+        width: 100%;
+
+        margin-top: 10px;
+
+        display: flex;
+        flex-direction: row;
+
+        .icon {
+            padding: 18px 16px 14px 16px;
+            background-color: var(--tertiary-color);
+            border-radius: 8px 0px 0px 8px;
+            align-items: start;
+
+            img {
+                height: 15px;
+                width: 15px;
+            }
+        }
+        input {
+            width: 100%;
+            padding: 18px 16px 19px 20px;
+
+            border: none;
+            border-radius: 0px 8px 8px 0px;
+
+            background-color: var(--tertiary-color);
+            
+
+            font-weight: 400;
+
+            &::placeholder {
+                color: var(--secondary-color);
+                font-weight: 530;
+                opacity: 0.6;
+            }
+        }
+
+
+    }
+
+
 }
+

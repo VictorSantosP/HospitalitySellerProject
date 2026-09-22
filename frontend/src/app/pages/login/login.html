@@ -3,6 +3,25 @@
     secondaryBtnText="Sign Up For Free "
 >
     <form [formGroup]="loginForm">
-        <app-default-form-input></app-default-form-input>
+        <app-default-form-input
+            formName="email"
+            type="email"
+            label="EMAIL ADRESS"
+            placeholder="guest@auragrand.com.br"
+        >
+            <img src="/assets/svg/email-icon.svg">
+        </app-default-form-input>
+        <app-default-form-input
+            formName="password"
+            type="password"
+            label="PASSWORD"
+            placeholder="••••••••••••"
+        >
+            <img src="/assets/svg/email-icon.svg">
+        </app-default-form-input>
+        <div class="checkbox-container">
+            <input type="checkbox" id="inscricao" name="newslettet" value="sim">
+            <label for="inscricao">Remember this workstation for private access</label>
+        </div>
     </form>
 </app-default-login-layout>
