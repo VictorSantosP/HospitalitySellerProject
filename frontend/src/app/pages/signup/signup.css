@@ -1,0 +1,33 @@
+form {
+    margin-bottom: 24px;
+
+    span {
+        font-size: 14px;
+        text-decoration: underline;
+        color: var(--secondary-color);
+        display: block;
+        text-align: end;
+        cursor: pointer;
+    }
+
+    .checkbox-container {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: row;
+
+        input[type="checkbox"] {
+            accent-color: var(--secondary-color);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            border-radius: 2.5px;
+
+        }
+
+        label {
+            padding-left: 12px;
+            color: #4E453B;
+        }
+
+    }
+}

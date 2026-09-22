@@ -1,1 +1,47 @@
-<app-default-login-layout></app-default-login-layout>
+<app-default-login-layout
+    primaryBtnText="Sign up Now →"
+    secondaryBtnText="Login Now! "
+>
+    <form [formGroup]="signupForm">
+        <app-default-form-input
+            formControlName="username"
+            inputName="username"
+            type="text"
+            label=" USERNAME"
+            placeholder="John Doe"
+        >
+        </app-default-form-input>
+        <app-default-form-input
+            formControlName="email"
+            inputName="email"
+            type="email"
+            label="EMAIL ADRESS"
+            placeholder="guest@auragrand.com.br"
+        >
+            <img src="/assets/svg/email-icon.svg">
+        </app-default-form-input>
+        <app-default-form-input
+            formControlName="password"
+            inputName="password"
+            type="password"
+            label="PASSWORD"
+            placeholder="••••••••••••"
+        >
+            <img src="/assets/svg/password-icon.svg">
+        </app-default-form-input>
+        <app-default-form-input
+            formControlName="passwordConfirm"
+            inputName="passwordConfirm"
+            type="password"
+            label="CONFIRM YOUR PASSWORD"
+            placeholder="••••••••••••"
+        >
+            <img src="/assets/svg/password-icon.svg">
+        </app-default-form-input>
+        <span>Forgot Password?</span>
+        <div class="checkbox-container">
+            <input type="checkbox" id="inscricao" name="newslettet" value="sim">
+            <label for="inscricao">Remember this workstation for private access</label>
+        </div>
+    </form>
+</app-default-login-layout>
