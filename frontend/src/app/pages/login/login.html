@@ -4,7 +4,8 @@
 >
     <form [formGroup]="loginForm">
         <app-default-form-input
-            formName="email"
+            formControlName="email"
+            inputName="email"
             type="email"
             label="EMAIL ADRESS"
             placeholder="guest@auragrand.com.br"
@@ -12,13 +13,15 @@
             <img src="/assets/svg/email-icon.svg">
         </app-default-form-input>
         <app-default-form-input
-            formName="password"
+            formControlName="password"
+            inputName="password"
             type="password"
             label="PASSWORD"
             placeholder="••••••••••••"
         >
             <img src="/assets/svg/email-icon.svg">
         </app-default-form-input>
+        <span>Forgot Password?</span>
         <div class="checkbox-container">
             <input type="checkbox" id="inscricao" name="newslettet" value="sim">
             <label for="inscricao">Remember this workstation for private access</label>

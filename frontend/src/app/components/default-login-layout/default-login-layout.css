@@ -51,15 +51,29 @@ main {
                 color: #ffffff;
                  
                 .upper-overlay-section {
+                    font-family: "Playfair Display", sans-serif;
+                    font-weight: 500;
+
+                    color: var(--image-diff-color);
+
                     display: flex;
                     flex-direction: row;
                     position: absolute;
                     top: 10%;
                     left: 50%;
+                    
 
                     background-color: transparent;
                     transform: translate(-50%, -50%);
                     width: 85%;
+
+                    h2, p {
+                        font-family: "Playfair Display", sans-serif;
+                    }
+
+                    p {
+                        color: #D2C4B6;
+                    }
 
                     .logo {
                         width: 150px;
@@ -78,6 +92,7 @@ main {
                     }
                 }
                 .mid-overlay-section {
+                    font-family: "Playfair Display", sans-serif;
 
                     position: absolute;
                     background-color: transparent;
@@ -88,6 +103,21 @@ main {
                     
                     h1{
                         margin-top: 20px;
+                        color: #F2F0ED;
+                        span{
+                            font-family: "Playfair Display", sans-serif;
+                            color: #FFDDB4;
+                            font-style: italic;
+                        }
+                    }
+                    p {
+                        color: #FFDDB4;
+                        
+                    }
+                    h1, p{
+                        font-family: "Playfair Display", sans-serif;
+                        
+                        font-weight: 300;
                     }
                     
                 }
@@ -122,10 +152,12 @@ main {
                 font-weight: 400;
                 line-height: 52px;
                 font-size: 36px;
+                font-family: "Playfair Display", sans-serif;
 
                 color: var(--text-primary-color);
 
                 span {
+                    font-family: "Playfair Display", sans-serif;
                     color: var(--secondary-color);
                     font-style: italic;
                 }
@@ -139,28 +171,7 @@ main {
                 font-weight: 400;
                 
             }
-            /*
-            ///////////////////////////
-            .checkbox-container {
-                display: flex;
-                flex-direction: row;
-                
-                input[type="checkbox"] {
-                    accent-color: var(--secondary-color);
-                    width: 16px;
-                    height: 16px;
-                    cursor: pointer;
-                    border-radius: 2.5px;
-                    
-                }
-
-                label {
-                    padding-left: 12px;
-                    color: #4E453B;
-                }
-                    ///////////////
-                
-            }*/
+        
 
             .btn-wrapper {
                 display: flex;
@@ -168,6 +179,7 @@ main {
                 height: 124px;
                 background-color: transparent;
                 padding-top: 16px;
+                
                 
                 .btn-primary {
                     height: 50px;
@@ -177,6 +189,7 @@ main {
                     border: none;
                     border-radius: 4px;
                     color: white;
+                    cursor: pointer;
 
                 }
 
@@ -187,6 +200,7 @@ main {
                     border-radius: 4px;
                     color: var(--text-primary-color);
                     background-color: var(--tertiary-color);
+                    cursor: pointer;
                 }
                 
             }

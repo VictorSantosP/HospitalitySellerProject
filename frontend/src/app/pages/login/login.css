@@ -1,8 +1,17 @@
 form {
     margin-bottom: 24px;
 
+    span {
+        font-size: 14px;
+        text-decoration: underline;
+        color: var(--secondary-color);
+        display: block;
+        text-align: end;
+        cursor: pointer;
+    }
+
     .checkbox-container {
-        margin-top: 24px;
+        margin-top: 12px;
         display: flex;
         flex-direction: row;
 
