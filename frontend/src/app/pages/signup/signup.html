@@ -1,13 +1,16 @@
 <app-default-login-layout
     primaryBtnText="Sign up Now →"
-    secondaryBtnText="Login Now! "
+    secondaryBtnText="Login Now!"
+    (submit)="submit()"
+    (navigate)="navigate()"
+    [disablePrimaryBtn]="!signupForm.valid"
 >
     <form [formGroup]="signupForm">
         <app-default-form-input
-            formControlName="username"
-            inputName="username"
+            formControlName="name"
+            inputName="name"
             type="text"
-            label=" USERNAME"
+            label="YOUR NAME"
             placeholder="John Doe"
         >
         </app-default-form-input>

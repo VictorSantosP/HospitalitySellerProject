@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
 import { DefaultLoginLayout } from '../../components/default-login-layout/default-login-layout';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, Form } from '@angular/forms';
 import { DefaultFormInput } from '../../components/default-form-input/default-form-input';
 import { Router } from '@angular/router';
 import { Signup } from '../signup/signup';
 import { LoginService } from '../../services/login-service';
+
+interface LoginForm {
+  email: FormControl,
+  password: FormControl
+}
 
 @Component({
   imports: [
@@ -20,7 +25,7 @@ import { LoginService } from '../../services/login-service';
   templateUrl: './login.html',
 })
 export class Login {
-  loginForm!: FormGroup;
+  loginForm!: FormGroup<LoginForm>;
 
   constructor(
     private router: Router,
