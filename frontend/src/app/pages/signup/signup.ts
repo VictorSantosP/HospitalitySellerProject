@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../../services/login-service';
 
 interface SignupForm {
-  name: FormControl
+  username: FormControl
   email: FormControl,
   password: FormControl,
   passwordConfirm: FormControl
@@ -30,7 +30,7 @@ export class Signup {
     private loginService: LoginService
   ) {
     this.signupForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      username: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.min(6)]),
       passwordConfirm: new FormControl('', [Validators.required, Validators.minLength(6)])
@@ -39,7 +39,7 @@ export class Signup {
 
   submit() {
     this.loginService.
-      login(this.signupForm.value.email, this.signupForm.value.password).
+      signup(this.signupForm.value.username ,this.signupForm.value.email, this.signupForm.value.password).
       subscribe({
         next: () => console.log("Sucess!"),
         error: () => console.log("Error! Try again later.")
