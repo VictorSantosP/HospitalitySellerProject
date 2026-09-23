@@ -1,6 +1,9 @@
 <app-default-login-layout
     primaryBtnText="Login Now →"
-    secondaryBtnText="Sign Up For Free "
+    secondaryBtnText="Sign Up For Free"
+    (submit)="submit()"
+    (navigate)="navigate()"
+    [disablePrimaryBtn]="!loginForm.valid"
 >
     <form [formGroup]="loginForm">
         <app-default-form-input
