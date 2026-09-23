@@ -4,6 +4,8 @@ import com.Hospitality.HospitalityWebsiteProject.reservation.dto.ReservationResp
 import com.Hospitality.HospitalityWebsiteProject.reservation.mapper.ReservationMapper;
 import com.Hospitality.HospitalityWebsiteProject.room.dto.RoomResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.room.entity.RoomEntity;
+import com.Hospitality.HospitalityWebsiteProject.security.dto.RegisterRequestDTO;
+import com.Hospitality.HospitalityWebsiteProject.security.dto.RegisterResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.user.dto.UserRequestDTO;
 import com.Hospitality.HospitalityWebsiteProject.user.dto.UserResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.user.entity.UserEntity;
@@ -18,13 +20,22 @@ import java.util.stream.Collectors;
 public class UserMapper {
     private final ReservationMapper reservationMapper;
 
-    public UserEntity toEntity(UserRequestDTO dto){
+    public UserEntity toEntity(RegisterRequestDTO dto){
         UserEntity user = new UserEntity();
 
         user.setEmail(dto.email());
         user.setName(dto.name());
-        user.setRole(dto.role());
-        user.setPhone(dto.phone());
+        user.setPassword(dto.password());
+
+        return user;
+    }
+
+    public UserEntity toEntityFromRegister(RegisterRequestDTO dto) {
+        UserEntity user = new UserEntity();
+
+        user.setEmail(dto.email());
+        user.setName(dto.name());
+
         user.setPassword(dto.password());
 
         return user;
@@ -37,9 +48,9 @@ public class UserMapper {
                 .map(reservationMapper::toResponseDTO).toList();
         return new UserResponseDTO(userEntity.getId(),
                 userEntity.getName(),
-                userEntity.getPhone(),
-                userEntity.getRole(),
                 reservations);
     }
+
+
 
 }

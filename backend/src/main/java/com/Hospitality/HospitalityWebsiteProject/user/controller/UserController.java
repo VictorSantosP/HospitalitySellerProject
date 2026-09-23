@@ -22,12 +22,6 @@ public class UserController {
 
     private final UserService service;
 
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser (@Valid @RequestBody UserRequestDTO dto){
-        UserResponseDTO response = service.createUser(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
     @GetMapping("/list")
     public ResponseEntity<Page<UserResponseDTO>> findAll (Pageable pageable){
         Page<UserResponseDTO> response = service.findAll(pageable);

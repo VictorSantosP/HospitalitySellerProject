@@ -4,6 +4,7 @@ import com.Hospitality.HospitalityWebsiteProject.exception.DataIntegrityExceptio
 import com.Hospitality.HospitalityWebsiteProject.exception.UserAlreadyExistsException;
 import com.Hospitality.HospitalityWebsiteProject.exception.UserNotFoundException;
 import com.Hospitality.HospitalityWebsiteProject.reservation.repository.ReservationRepository;
+import com.Hospitality.HospitalityWebsiteProject.security.dto.RegisterRequestDTO;
 import com.Hospitality.HospitalityWebsiteProject.user.dto.UserRequestDTO;
 import com.Hospitality.HospitalityWebsiteProject.user.dto.UserResponseDTO;
 import com.Hospitality.HospitalityWebsiteProject.user.entity.UserEntity;
@@ -38,29 +39,23 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public UserResponseDTO createUser(UserRequestDTO requestDTO) {
-        if(userRepository.existsByEmail(requestDTO.email())) {
-            userRepository.findByEmail(requestDTO.email()).
-                    orElseThrow(() -> new UserAlreadyExistsException(
-                            "O usuário com o email cadastrado já existe."
-                    ));
-        }
+    public UserEntity registerUser(RegisterRequestDTO requestDTO) {
         try{
+            if (userRepository.existsByEmail(requestDTO.email())) {
+                throw new UserAlreadyExistsException(
+                        "O usuário com o email cadastrado já existe."
+                );
+            }
+
             UserEntity user = userMapper.toEntity(requestDTO);
 
             user.setPassword(
-                    passwordEncoder.encode(
-                            user.getPassword()
-                    )
+                    passwordEncoder.encode(user.getPassword())
             );
 
-            if(user.getReservations() != null){
-                user.getReservations().forEach(reservation -> reservation.setUser(user));
-            }
+            user.setRole(UserRole.ROLE_USER);
 
-            UserEntity saved = userRepository.saveAndFlush(user);
-
-            return userMapper.toResponseDTO(saved);
+            return userRepository.save(user);
 
         }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException(
@@ -121,9 +116,10 @@ public class UserServiceImpl implements UserService{
             if(!user.getPhone().equals(requestDTO.phone())){
                 user.setPhone(requestDTO.phone());
             }
+            /* não é mais permito alterar a role via req
             if(!user.getRole().equals(requestDTO.role())){
                 user.setRole(requestDTO.role());
-            }
+            }*/
             UserEntity saved = userRepository.saveAndFlush(user);
             return userMapper.toResponseDTO(saved);
 

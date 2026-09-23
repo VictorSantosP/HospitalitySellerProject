@@ -21,8 +21,7 @@ public record UserRequestDTO (
               regexp = "^\\d{10,11}$",
               message = "Telefone deve conter 10 ou 11 dígitos."
       )
-      String phone,
-      @NotNull(message = "Valor inválido, diferente de 'ADMIN ' ou 'USER', ou dado enviado vazio!")
-      UserRole role
+      String phone
+
 ) {
 }

@@ -1,6 +1,6 @@
 package com.Hospitality.HospitalityWebsiteProject.security.dto;
 
-public record LoginResponseDTO(
+public record RegisterResponseDTO(
         String name,
         String token
 ) {
